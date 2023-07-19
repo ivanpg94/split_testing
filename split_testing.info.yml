@@ -1,0 +1,6 @@
+name: 'Split Teting'
+description: 'Make test with an old webside to chech if everything its ok'
+type: module
+package: 'Testing'
+core: 8.x
+core_version_requirement: ^8 || ^9

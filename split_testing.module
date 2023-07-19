@@ -1,0 +1,20 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+
+function split_testing_preprocess_page() {
+  $random_number = rand(0, 100);
+  $redirect_percentage = 50;
+  $current_user_id = \Drupal::currentUser()->id();
+  $tempstore = \Drupal::service('tempstore.private')->get('split_testing');
+  $request = \Drupal::service('request_stack')->getCurrentRequest();
+  $requestUri = $request->getRequestUri();
+
+  if ($random_number < $redirect_percentage && is_null($tempstore->get('idtemp', $current_user_id))) {
+    $new_domain = "https://www.d7.mitortuga.es".$requestUri;
+    header("Location: $new_domain");
+    exit;
+  }
+  $tempstore->set('idtemp', $current_user_id);
+}
